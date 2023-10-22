@@ -44,6 +44,24 @@ const hoursWorkedOnDate = function(employee, date) {
     })
     return (punchOut.hour - punchIn.hour) / 100
 };
-const wagesEarnedOnDate = function() {
-
+const wagesEarnedOnDate = function(employee, date) {
+    const wageUnits = hoursWorkedOnDate(employee, date) * employee.payPerHour;
+    return wageUnits
+};
+const allWagesFor = function(employee) {
+    const shifts = employee.timeInEvents.map(function(x) {
+        return x.date
+    });
+    let total = shifts.reduce(function(y, z) {
+        return y + wagesEarnedOnDate(employee, z)
+    }, 0);
+    return total;
+};
+const calculatePayroll = function(employees) {
+    let total = 0;
+    for (let key of employees) {
+        total = total + allWagesFor(key);
+        console.log(total);
+    };
+    return total;
 };
